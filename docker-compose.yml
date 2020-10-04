@@ -1,0 +1,25 @@
+version: "2"
+services:
+  app:
+    container_name: dreamquarktest
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  mongo_seed:
+    image: mongo
+    links:
+      - mongo
+    volumes:
+      - ./:/mongo-seed
+    command:
+      /mongo-seed/import.sh    
